@@ -3,6 +3,8 @@ package com;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import tk.mybatis.spring.annotation.MapperScan;
+
 /**
  * Description:TODO
  * Create Time:2020/8/30 14:03
@@ -10,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * Email:kingjavip@gmail.com
  */
 @SpringBootApplication
+@MapperScan(basePackages = "com.imooc.mapper")
 public class Application {
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
