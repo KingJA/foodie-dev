@@ -30,6 +30,18 @@ spring:
       pool-name: DateSourceHikariCP   # 连接池名字
       max-lifetime: 1800000           # 连接的生命时长（毫秒），超时而且没被使用则被释放（retired），默认:30分钟 1800000ms
       connection-test-query: SELECT 1
+############################################################
+#
+# 热部署 配置
+#
+############################################################
+  devtools:
+    restart:
+      enabled: true  #设置开启热部署
+      additional-paths: src/main/java #重启目录
+      exclude: WEB-INF/**
+  freemarker:
+    cache: false    #页面不加载缓存，修改即时生效
 
 ############################################################
 #
@@ -50,3 +62,5 @@ mapper:
   mappers: com.imooc.my.mapper.MyMapper
   not-empty: false
   identity: MYSQL
+
+

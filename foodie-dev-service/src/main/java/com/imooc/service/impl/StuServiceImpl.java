@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 public class StuServiceImpl implements StuService {
+
     @Autowired
     private StuMapper stuMapper;
 
@@ -30,7 +31,7 @@ public class StuServiceImpl implements StuService {
     @Override
     public void saveStu() {
         Stu stu = new Stu();
-        stu.setName("tom2");
+        stu.setName("tom3");
         stu.setAge(19);
         stuMapper.insert(stu);
 
