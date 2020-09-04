@@ -13,5 +13,5 @@ public interface UserService {
     public boolean queryUserIsExist(String username);
     public Users queryUserForLogin(String username, String password);
 
-    public void createUser(UserBO userBO);
+    public Users createUser(UserBO userBO);
 }

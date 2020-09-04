@@ -37,8 +37,9 @@ public class UserServiceImpl implements UserService {
         Example example = new Example(Users.class);
         Example.Criteria criteria = example.createCriteria();
         criteria.andEqualTo("username", username);
-        return usersMapper.selectOneByExample(example)!=null;
+        return usersMapper.selectOneByExample(example) != null;
     }
+
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public Users queryUserForLogin(String username, String password) {
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional(propagation = Propagation.REQUIRED)
     @Override
-    public void createUser(UserBO userBO) {
+    public Users createUser(UserBO userBO) {
         Users users = new Users();
         String id = sid.nextShort();
         users.setId(id);
@@ -65,6 +66,6 @@ public class UserServiceImpl implements UserService {
         users.setFace("https://");
         users.setSex(1);
         usersMapper.insert(users);
-
+        return users;
     }
 }

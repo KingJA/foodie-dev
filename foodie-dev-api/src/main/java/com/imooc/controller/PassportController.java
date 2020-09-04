@@ -5,6 +5,8 @@ import com.imooc.pojo.Users;
 import com.imooc.pojo.bo.UserBO;
 import com.imooc.service.UserService;
 import com.imooc.utils.ApiResult;
+import com.imooc.utils.CookieUtils;
+import com.imooc.utils.JsonUtils;
 import com.imooc.utils.MD5Util;
 
 import org.apache.commons.lang3.StringUtils;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -47,7 +52,8 @@ public class PassportController {
 
     @ApiOperation(value = "注册用户", notes = "注册用户notes", httpMethod = "POST")
     @PostMapping("/regist")
-    public ApiResult regist(@RequestBody UserBO userBO) {
+    public ApiResult regist(@RequestBody UserBO userBO,
+                            HttpServletRequest request, HttpServletResponse response) {
         String username = userBO.getUsername();
         String password = userBO.getPassword();
         String confirmPassword = userBO.getConfirmPassword();
@@ -63,13 +69,15 @@ public class PassportController {
         if (!password.equals(confirmPassword)) {
             return ApiResult.errorMsg("重复密码不一致");
         }
-        userService.createUser(userBO);
+        Users result = userService.createUser(userBO);
+        CookieUtils.setCookie(request,response,"user", JsonUtils.objectToJson(result),true);
         return ApiResult.ok();
     }
 
     @ApiOperation(value = "注册登录", notes = "注册登录notes", httpMethod = "POST")
     @PostMapping("/login")
-    public ApiResult login(@RequestBody UserBO userBO) {
+    public ApiResult login(@RequestBody UserBO userBO,
+                           HttpServletRequest request, HttpServletResponse response) {
         String username = userBO.getUsername();
         String password = userBO.getPassword();
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
@@ -79,6 +87,21 @@ public class PassportController {
         if (result == null) {
             return ApiResult.errorMsg("账号或密码不正确");
         }
+        //TODO
+        //返回指定对象，不包含敏感字段，教程用设置null方法，个人觉得另用一个对象
+        CookieUtils.setCookie(request,response,"user", JsonUtils.objectToJson(result),true);
         return ApiResult.ok(result);
     }
+
+    @ApiOperation(value = "退出登录", notes = "退出登录", httpMethod = "POST")
+    @PostMapping("/logout")
+    public ApiResult logout(@RequestParam String userId,
+                           HttpServletRequest request, HttpServletResponse response) {
+        CookieUtils.deleteCookie(request,response,"user");
+        //TODO
+        //1.用户退出需要清空购物车
+        //2.分布式会话需要清除会话信息
+        return ApiResult.ok();
+    }
+
 }
