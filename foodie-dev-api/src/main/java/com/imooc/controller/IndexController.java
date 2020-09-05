@@ -7,7 +7,7 @@ import com.imooc.pojo.Category;
 import com.imooc.pojo.vo.CategoryVo;
 import com.imooc.pojo.vo.RecommendCatsVo;
 import com.imooc.service.CategoryService;
-import com.imooc.service.impl.CarouselService;
+import com.imooc.service.CarouselService;
 import com.imooc.utils.ApiResult;
 
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.imooc.service.impl;
+package com.imooc.service;
 
 import com.imooc.pojo.Carousel;
 
