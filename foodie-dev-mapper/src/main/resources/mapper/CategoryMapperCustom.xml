@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.imooc.mapper.CategoryMapperCustom" >
+
+  <resultMap id="myCategoryVo" type="com.imooc.pojo.vo.CategoryVo">
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="fatherId" property="fatherId" jdbcType="VARCHAR" />
+    <collection property="subCatList" ofType="com.imooc.pojo.vo.CategorySubVo">
+      <id column="subId" property="subId" />
+      <result column="subType" property="subType" />
+      <result column="subName" property="subName" />
+      <result column="subFatherId" property="subFatherId"  />
+    </collection>
+  </resultMap>
+
+  <select id="getSubCategoryList" parameterType="int" resultMap="myCategoryVo">
+    SELECT
+      f.id as id,
+      f.name as name,
+      f.type as type,
+      f.father_id as fatherId,
+      c.id as subId,
+      c.name as subName,
+      c.type as subType,
+      c.father_id as subFatherId
+    FROM
+        category f
+    LEFT JOIN
+        category c
+    ON
+        f.id=c.father_id
+    WHERE
+        f.father_id=#{rootId}
+  </select>
+
+
+
+  <resultMap id="myRecommentdGoodsVo" type="com.imooc.pojo.vo.RecommendCatsVo">
+    <id column="rootCarId" property="rootCarId"  />
+    <result column="rootCatName" property="rootCatName"  />
+    <result column="name" property="name"  />
+    <result column="slogan" property="slogan"  />
+    <result column="catImage" property="catImage"  />
+    <result column="bgColor" property="bgColor"  />
+    <collection property="simpleItemList" ofType="com.imooc.pojo.vo.RecommendGoodsVo">
+      <id column="itemId" property="itemId" />
+      <result column="itemName" property="itemName" />
+      <result column="itemUrl" property="itemUrl" />
+    </collection>
+  </resultMap>
+
+  <select id="getRecommendGoodsList" parameterType="Map" resultMap="myRecommentdGoodsVo">
+    SELECT
+        f.id as rootCarId,
+        f.name as rootCatName,
+        f.slogan as slogan,
+        f.cat_image as catImage,
+        f.bg_color as bgColor,
+        i.id as itemId,
+        i.item_name as itemName,
+        ii.url as itemUrl,
+        i.created_time as createdTime
+
+    FROM
+        category f
+    LEFT JOIN
+        items i
+    ON
+        f.id=i.root_cat_id
+    LEFT JOIN
+        items_img ii
+    ON
+        i.id=ii.item_id
+    WHERE
+        f.type=1
+    AND
+        i.root_cat_id=#{paramMap.rootCatId}
+    AND
+        ii.is_main=1
+    ORDER BY
+        i.created_time
+    DESC
+    LIMIT 0,6
+  </select>
+</mapper>
