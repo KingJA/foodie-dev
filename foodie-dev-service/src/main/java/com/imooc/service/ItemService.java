@@ -1,10 +1,11 @@
 package com.imooc.service;
 
-import com.imooc.pojo.Carousel;
 import com.imooc.pojo.Items;
 import com.imooc.pojo.ItemsImg;
 import com.imooc.pojo.ItemsParam;
 import com.imooc.pojo.ItemsSpec;
+import com.imooc.pojo.vo.CommentCountsVo;
+import com.imooc.pojo.vo.ItemCommentVo;
 
 import java.util.List;
 
@@ -37,5 +38,20 @@ public interface ItemService {
      * @return
      */
     ItemsParam getItemParam(String itemId);
+
+    /**
+     * 获取商品评价各等级数量
+     * @param itemId
+     * @return
+     */
+    CommentCountsVo getCommentCounts(String itemId);
+
+    /**
+     * 根据等级获取评论
+     * @param itemId
+     * @param level
+     * @return
+     */
+    List<ItemCommentVo> getPageComments(String itemId,Integer level);
 
 }

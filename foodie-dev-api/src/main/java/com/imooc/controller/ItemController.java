@@ -1,18 +1,11 @@
 package com.imooc.controller;
 
 
-import com.imooc.enums.YesOrNo;
-import com.imooc.pojo.Carousel;
-import com.imooc.pojo.Category;
 import com.imooc.pojo.Items;
 import com.imooc.pojo.ItemsImg;
 import com.imooc.pojo.ItemsParam;
 import com.imooc.pojo.ItemsSpec;
-import com.imooc.pojo.vo.CategoryVo;
 import com.imooc.pojo.vo.ItemInfoVo;
-import com.imooc.pojo.vo.RecommendCatsVo;
-import com.imooc.service.CarouselService;
-import com.imooc.service.CategoryService;
 import com.imooc.service.ItemService;
 import com.imooc.utils.ApiResult;
 
@@ -21,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -61,5 +55,15 @@ public class ItemController {
         itemInfoVo.setItemSpecList(itemSpecList);
         itemInfoVo.setItemParams(itemParam);
         return ApiResult.ok(itemInfoVo);
+    }
+
+    @ApiOperation(value = "获取商品各等级评价数量", notes = "获取商品各等级评价数量", httpMethod = "GET")
+    @GetMapping("/commentLevel")
+    public ApiResult getCommentLevelCounts(@ApiParam(value = "商品Id", required = true, name = "itemId")
+                                           @RequestParam String itemId) {
+        if (StringUtils.isBlank(itemId)) {
+            return ApiResult.errorMsg("评价等级不存在");
+        }
+        return ApiResult.ok(itemService.getCommentCounts(itemId));
     }
 }
