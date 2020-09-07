@@ -42,5 +42,15 @@ public class ShopcartController {
         System.out.println(shopcartBO.toString());
         return ApiResult.ok();
     }
-
+    @ApiOperation(value = "删除商品", notes = "删除商品", httpMethod = "POST")
+    @PostMapping("del")
+    public ApiResult del(@ApiParam(value = "商品Id", required = true, name = "userId") @RequestParam String userId,
+                         @RequestParam String itemSpecId) {
+        if (StringUtils.isBlank(userId)||StringUtils.isBlank(itemSpecId)) {
+            return ApiResult.errorMsg("删除失败");
+        }
+        //前端用户在登录的情况下，删除商品到购物车，会同时在后台同步购物车到redis
+        System.out.println("删除"+itemSpecId);
+        return ApiResult.ok();
+    }
 }

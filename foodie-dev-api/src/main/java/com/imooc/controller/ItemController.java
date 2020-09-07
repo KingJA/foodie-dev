@@ -125,4 +125,14 @@ public class ItemController extends BaseController {
         PagedGridResult pageComments = itemService.getSearchItemsByThirdCat(catId, sort, page, pageSize);
         return ApiResult.ok(pageComments);
     }
+
+    /*由于用户长时间没登录，刷新商品的信息，主要是价格*/
+    @ApiOperation(value = "根据规格Id获取购物车产品信息", notes = "根据规格Id获取购物车产品信息", httpMethod = "GET")
+    @GetMapping("/refresh")
+    public ApiResult refresh(@ApiParam(value = "规格Id", required = true, name = "itemSpecIds") @RequestParam String itemSpecIds) {
+        if (StringUtils.isBlank(itemSpecIds)) {
+            return ApiResult.errorMsg("规格信息错误");
+        }
+        return ApiResult.ok(itemService.queryItemsBySpecId(itemSpecIds));
+    }
 }

@@ -5,14 +5,10 @@ import com.imooc.pojo.ItemsImg;
 import com.imooc.pojo.ItemsParam;
 import com.imooc.pojo.ItemsSpec;
 import com.imooc.pojo.vo.CommentCountsVo;
-import com.imooc.pojo.vo.ItemCommentVo;
-import com.imooc.pojo.vo.SearchItemVo;
+import com.imooc.pojo.vo.ShopcartVO;
 import com.imooc.utils.PagedGridResult;
 
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
-import java.util.Map;
 
 public interface ItemService {
 
@@ -63,5 +59,5 @@ public interface ItemService {
 
     PagedGridResult getSearchItems(String keywords, String sort, Integer page, Integer pageSize);
     PagedGridResult getSearchItemsByThirdCat(Integer catId, String sort, Integer page, Integer pageSize);
-
+    List<ShopcartVO> queryItemsBySpecId(String specIds);
 }

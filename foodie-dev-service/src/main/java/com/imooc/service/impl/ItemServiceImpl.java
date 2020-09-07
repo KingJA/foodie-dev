@@ -17,6 +17,7 @@ import com.imooc.pojo.ItemsSpec;
 import com.imooc.pojo.vo.CommentCountsVo;
 import com.imooc.pojo.vo.ItemCommentVo;
 import com.imooc.pojo.vo.SearchItemVo;
+import com.imooc.pojo.vo.ShopcartVO;
 import com.imooc.service.ItemService;
 import com.imooc.utils.PagedGridResult;
 
@@ -25,6 +26,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -138,6 +141,14 @@ public class ItemServiceImpl implements ItemService {
         PageHelper.startPage(page, pageSize);
         List<SearchItemVo> list = itemsCommentsMapperCustom.getSearchItemsByThirdCat(map);
         return getPagedGridResult(list, page);
+    }
+
+    @Override
+    public List<ShopcartVO> queryItemsBySpecId(String specIds) {
+        String[] specIdsAttr = specIds.split(",");
+        List<String> list=new ArrayList<>();
+        Collections.addAll(list,specIdsAttr);
+        return itemsCommentsMapperCustom.queryItemsBySpecId(list);
     }
 
     private PagedGridResult getPagedGridResult(List<?> list, Integer page) {
