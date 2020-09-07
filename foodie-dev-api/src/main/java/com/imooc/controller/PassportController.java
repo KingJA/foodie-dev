@@ -72,6 +72,8 @@ public class PassportController {
         }
         Users result = userService.createUser(userBO);
         CookieUtils.setCookie(request,response,"user", JsonUtils.objectToJson(result),true);
+        //TODO 生成用户token，存入redis会话
+        //TODO 同步购物车数据
         return ApiResult.ok();
     }
 
@@ -91,6 +93,8 @@ public class PassportController {
         //TODO
         //返回指定对象，不包含敏感字段，教程用设置null方法，个人觉得另用一个对象
         CookieUtils.setCookie(request,response,"user", JsonUtils.objectToJson(result),true);
+        //TODO 生成用户token，存入redis会话
+        //TODO 同步购物车数据
         return ApiResult.ok(result);
     }
 
