@@ -106,4 +106,23 @@ public class ItemController extends BaseController {
         PagedGridResult pageComments = itemService.getSearchItems(keywords, sort, page, pageSize);
         return ApiResult.ok(pageComments);
     }
+
+    @ApiOperation(value = "根据3级分类搜索商品", notes = "根据3级分类搜索商品", httpMethod = "GET")
+    @GetMapping("/catItems")
+    public ApiResult searchByThirdCat(@ApiParam(value = "分类Id", required = true, name = "catId") @RequestParam Integer catId,
+                                      @ApiParam(value = "排序", required = false, name = "sort") @RequestParam String sort,
+                                      @ApiParam(value = "页码", required = true, name = "page") @RequestParam Integer page,
+                                      @ApiParam(value = "每页数量", required = true, name = "pageSize") @RequestParam Integer pageSize) {
+        if (catId == null) {
+            return ApiResult.errorMsg("请选择分类");
+        }
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = PAGE_SIZE;
+        }
+        PagedGridResult pageComments = itemService.getSearchItemsByThirdCat(catId, sort, page, pageSize);
+        return ApiResult.ok(pageComments);
+    }
 }

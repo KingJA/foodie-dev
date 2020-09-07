@@ -11,4 +11,5 @@ import java.util.Map;
 public interface ItemsCommentsMapperCustom {
     List<ItemCommentVo> getItemComments(@Param("paramsMap") Map map);
     List<SearchItemVo> getSearchItems(@Param("paramsMap") Map map);
+    List<SearchItemVo> getSearchItemsByThirdCat(@Param("paramsMap") Map map);
 }

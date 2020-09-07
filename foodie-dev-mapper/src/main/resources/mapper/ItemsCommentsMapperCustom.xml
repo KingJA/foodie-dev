@@ -20,7 +20,7 @@
          ic.item_id=#{paramsMap.itemId}
          <if test="paramsMap.level!=null and paramsMap.level!=''">
             AND ic.comment_level=#{paramsMap.level}
-          </if>
+         </if>
     </select>
 
 
@@ -67,4 +67,44 @@
             </choose>
     </select>
 
+    <select id="getSearchItemsByThirdCat" parameterType="Map" resultType="com.imooc.pojo.vo.SearchItemVo">
+        SELECT
+            i.id as itemId,
+            i.item_name as itemName,
+            i.sell_counts as sellCounts,
+            ii.url as imgUrl,
+            tempSpec.price_discount as price
+        FROM
+            items i
+        LEFT JOIN
+            items_img ii
+        ON
+             i.id=ii.item_id
+        LEFT JOIN
+        (
+            SELECT
+                 item_id,MIN(price_discount) as price_discount
+            FROM
+                items_spec
+            GROUP BY
+            item_id
+        ) tempSpec
+        ON
+           i.id=tempSpec.item_id
+        WHERE ii.is_main=1
+        AND i.cat_id=#{paramsMap.catId}
+        order by
+        <choose>
+            <!--c 销量 p 价格 -->
+            <when test="paramsMap.sort==&quot;c&quot;">
+                i.sell_counts desc
+            </when>
+            <when test="paramsMap.sort==&quot;p&quot;">
+                tempSpec.price_discount asc
+            </when>
+            <otherwise >
+                i.item_name asc
+            </otherwise>
+        </choose>
+    </select>
 </mapper>
