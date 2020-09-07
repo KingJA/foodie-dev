@@ -6,8 +6,13 @@ import com.imooc.pojo.ItemsParam;
 import com.imooc.pojo.ItemsSpec;
 import com.imooc.pojo.vo.CommentCountsVo;
 import com.imooc.pojo.vo.ItemCommentVo;
+import com.imooc.pojo.vo.SearchItemVo;
+import com.imooc.utils.PagedGridResult;
+
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface ItemService {
 
@@ -52,6 +57,10 @@ public interface ItemService {
      * @param level
      * @return
      */
-    List<ItemCommentVo> getPageComments(String itemId,Integer level);
+    PagedGridResult getPageComments(String itemId, Integer level, Integer page, Integer pageSize);
+
+
+
+    PagedGridResult getSearchItems(String keywords, String sort, Integer page, Integer pageSize);
 
 }

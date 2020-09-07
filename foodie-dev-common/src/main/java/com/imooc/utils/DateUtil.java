@@ -1,16 +1,10 @@
 package com.imooc.utils;
 
-import org.apache.commons.lang3.StringUtils;
+import java.text.*;
+import java.util.*;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.ParsePosition;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Random;
-import java.util.TimeZone;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateUtils;
 
 public class DateUtil {
 

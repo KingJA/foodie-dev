@@ -16,7 +16,7 @@ server:
 ############################################################
 spring:
   profiles:
-    active: home
+    active: cor
   datasource:                                         # 数据源的相关配置
     type: com.zaxxer.hikari.HikariDataSource          # 数据源类型：HikariCP
     driver-class-name: com.mysql.jdbc.Driver          # mysql驱动
@@ -67,4 +67,9 @@ mapper:
   not-empty: false
   identity: MYSQL
 
+
+# 分页插件配置
+pagehelper:
+  helperDialect: mysql
+  supportMethodsArguments: true
 

@@ -1,5 +1,7 @@
 package com.imooc.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.imooc.enums.CommentLevel;
 import com.imooc.mapper.ItemsCommentsMapper;
 import com.imooc.mapper.ItemsCommentsMapperCustom;
@@ -14,7 +16,9 @@ import com.imooc.pojo.ItemsParam;
 import com.imooc.pojo.ItemsSpec;
 import com.imooc.pojo.vo.CommentCountsVo;
 import com.imooc.pojo.vo.ItemCommentVo;
+import com.imooc.pojo.vo.SearchItemVo;
 import com.imooc.service.ItemService;
+import com.imooc.utils.PagedGridResult;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +36,8 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     public ItemsMapper itemsMapper;
+
+
     @Autowired
     public ItemsImgMapper itemsImgMapper;
     @Autowired
@@ -81,15 +87,6 @@ public class ItemServiceImpl implements ItemService {
 
     @Transactional(propagation = Propagation.SUPPORTS)
     @Override
-    public List<ItemCommentVo> getPageComments(String itemId, Integer level) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("itemId", itemId);
-        map.put("level", level);
-        return itemsCommentsMapperCustom.getItemComments(map);
-    }
-
-    @Transactional(propagation = Propagation.SUPPORTS)
-    @Override
     public CommentCountsVo getCommentCounts(String itemId) {
         Integer goodCounts = getCommentCounts(itemId, CommentLevel.GOOD.type);
         Integer normalCounts = getCommentCounts(itemId, CommentLevel.NORMAL.type);
@@ -109,6 +106,38 @@ public class ItemServiceImpl implements ItemService {
         comment.setItemId(itemId);
         comment.setCommentLevel(commentLevel);
         return itemsCommentsMapper.selectCount(comment);
+
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public PagedGridResult getPageComments(String itemId, Integer level, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("itemId", itemId);
+        map.put("level", level);
+        PageHelper.startPage(page, pageSize);
+        List<ItemCommentVo> list = itemsCommentsMapperCustom.getItemComments(map);
+        return getPagedGridResult(list, page);
+    }
+
+    @Override
+    public PagedGridResult getSearchItems(String keywords, String sort, Integer page, Integer pageSize) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("keywords", keywords);
+        map.put("sort", sort);
+        PageHelper.startPage(page, pageSize);
+        List<SearchItemVo> list = itemsCommentsMapperCustom.getSearchItems(map);
+        return getPagedGridResult(list, page);
+    }
+
+    private PagedGridResult getPagedGridResult(List<?> list, Integer page) {
+        PageInfo<?> pageList = new PageInfo<>(list);
+        PagedGridResult grid = new PagedGridResult();
+        grid.setPage(page);
+        grid.setRows(list);
+        grid.setTotal(pageList.getPages());
+        grid.setRecords(pageList.getTotal());
+        return grid;
 
     }
 }
