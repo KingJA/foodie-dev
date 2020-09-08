@@ -3,10 +3,12 @@ package com.imooc.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.imooc.enums.CommentLevel;
+import com.imooc.enums.YesOrNo;
 import com.imooc.mapper.ItemsCommentsMapper;
 import com.imooc.mapper.ItemsCommentsMapperCustom;
 import com.imooc.mapper.ItemsImgMapper;
 import com.imooc.mapper.ItemsMapper;
+import com.imooc.mapper.ItemsMapperCustom;
 import com.imooc.mapper.ItemsParamMapper;
 import com.imooc.mapper.ItemsSpecMapper;
 import com.imooc.pojo.Items;
@@ -53,6 +55,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     public ItemsCommentsMapperCustom itemsCommentsMapperCustom;
+
+  @Autowired
+    public ItemsMapperCustom itemsMapperCustom;
 
 
     @Transactional(propagation = Propagation.SUPPORTS)
@@ -129,26 +134,51 @@ public class ItemServiceImpl implements ItemService {
         map.put("keywords", keywords);
         map.put("sort", sort);
         PageHelper.startPage(page, pageSize);
-        List<SearchItemVo> list = itemsCommentsMapperCustom.getSearchItems(map);
+        List<SearchItemVo> list = itemsMapperCustom.getSearchItems(map);
         return getPagedGridResult(list, page);
     }
-
+    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public PagedGridResult getSearchItemsByThirdCat(Integer catId, String sort, Integer page, Integer pageSize) {
         Map<String, Object> map = new HashMap<>();
         map.put("catId", catId);
         map.put("sort", sort);
         PageHelper.startPage(page, pageSize);
-        List<SearchItemVo> list = itemsCommentsMapperCustom.getSearchItemsByThirdCat(map);
+        List<SearchItemVo> list = itemsMapperCustom.getSearchItemsByThirdCat(map);
         return getPagedGridResult(list, page);
     }
-
+    @Transactional(propagation = Propagation.SUPPORTS)
     @Override
     public List<ShopcartVO> queryItemsBySpecId(String specIds) {
         String[] specIdsAttr = specIds.split(",");
         List<String> list=new ArrayList<>();
         Collections.addAll(list,specIdsAttr);
-        return itemsCommentsMapperCustom.queryItemsBySpecId(list);
+        return itemsMapperCustom.queryItemsBySpecId(list);
+    }
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public ItemsSpec queryItemSpecBySpecId(String specId) {
+        return itemsSpecMapper.selectByPrimaryKey(specId);
+    }
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public String getItemMainImgById(String itemId) {
+        ItemsImg itemsImg = new ItemsImg();
+        itemsImg.setItemId(itemId);
+        itemsImg.setIsMain(YesOrNo.YES.type);
+        ItemsImg result = itemsImgMapper.selectOne(itemsImg);
+        return result.getUrl()==null?"":result.getUrl();
+    }
+    @Transactional(propagation = Propagation.SUPPORTS)
+    @Override
+    public void decreaseStock(String spaceId, int buyCounts) {
+        // 加锁
+        // 扣库存
+        // 解锁
+        int result = itemsMapperCustom.decreaseStock(spaceId, buyCounts);
+        if (result != 1) {
+            throw new RuntimeException("订单创建失败，原因：库存不足");
+        }
     }
 
     private PagedGridResult getPagedGridResult(List<?> list, Integer page) {

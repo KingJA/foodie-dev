@@ -60,4 +60,7 @@ public interface ItemService {
     PagedGridResult getSearchItems(String keywords, String sort, Integer page, Integer pageSize);
     PagedGridResult getSearchItemsByThirdCat(Integer catId, String sort, Integer page, Integer pageSize);
     List<ShopcartVO> queryItemsBySpecId(String specIds);
+    ItemsSpec queryItemSpecBySpecId(String specId);
+    String getItemMainImgById(String itemId);
+    void decreaseStock(String spaceId,int buyCounts);
 }

@@ -74,7 +74,8 @@ public class IndexController {
 
     @ApiOperation(value = "获取推荐列表", notes = "获取推荐列表", httpMethod = "GET")
     @GetMapping("/sixNewItems/{rootCateId}")
-    public ApiResult getRecommendGoodsList(@ApiParam(value = "一级分类id", required = true, name = "rootCateId") @PathVariable Integer rootCateId) {
+    public ApiResult getRecommendGoodsList(@ApiParam(value = "一级分类id", required = true, name = "rootCateId")
+                                               @PathVariable Integer rootCateId) {
         if (rootCateId == null) {
             return ApiResult.errorMsg("推荐列表不存在");
 
