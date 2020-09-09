@@ -189,6 +189,5 @@ public class ItemServiceImpl implements ItemService {
         grid.setTotal(pageList.getPages());
         grid.setRecords(pageList.getTotal());
         return grid;
-
     }
 }
