@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : local
- Source Server Type    : MySQL
- Source Server Version : 80015
+ Source Server         : .
+ Source Server Type    : MariaDB
+ Source Server Version : 100313
  Source Host           : localhost:3306
  Source Schema         : foodie-shop-dev
 
- Target Server Type    : MySQL
- Target Server Version : 80015
+ Target Server Type    : MariaDB
+ Target Server Version : 100313
  File Encoding         : 65001
 
- Date: 08/09/2020 17:15:53
+ Date: 01/09/2019 16:44:28
 */
 
 SET NAMES utf8mb4;
@@ -21,47 +21,50 @@ SET FOREIGN_KEY_CHECKS = 0;
 -- Table structure for carousel
 -- ----------------------------
 DROP TABLE IF EXISTS `carousel`;
-CREATE TABLE `carousel`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键',
-  `image_url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '图片 图片地址',
-  `background_color` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '背景色',
-  `item_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品id 商品id',
-  `cat_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品分类id 商品分类id',
+CREATE TABLE `carousel` (
+  `id` varchar(64) NOT NULL COMMENT '主键',
+  `image_url` varchar(128) NOT NULL COMMENT '图片 图片地址',
+  `background_color` varchar(32) DEFAULT NULL COMMENT '背景色',
+  `item_id` varchar(64) DEFAULT NULL COMMENT '商品id 商品id',
+  `cat_id` varchar(64) DEFAULT NULL COMMENT '商品分类id 商品分类id',
   `type` int(11) NOT NULL COMMENT '轮播图类型 轮播图类型，用于判断，可以根据商品id或者分类进行页面跳转，1：商品 2：分类',
   `sort` int(11) NOT NULL COMMENT '轮播图展示顺序',
   `is_show` int(11) NOT NULL COMMENT '是否展示',
-  `create_time` datetime(0) NOT NULL COMMENT '创建时间 创建时间',
-  `update_time` datetime(0) NOT NULL COMMENT '更新时间 更新',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '轮播图 ' ROW_FORMAT = Dynamic;
+  `create_time` datetime NOT NULL COMMENT '创建时间 创建时间',
+  `update_time` datetime NOT NULL COMMENT '更新时间 更新',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='轮播图 ';
 
 -- ----------------------------
 -- Records of carousel
 -- ----------------------------
+BEGIN;
 INSERT INTO `carousel` VALUES ('c-10011', 'http://122.152.205.72:88/group1/M00/00/05/CpoxxF0ZmG-ALsPRAAEX2Gk9FUg848.png', '#f44661', 'nut-1004', '', 1, 1, 1, '2019-08-27 20:33:06', '2019-08-24 20:33:09');
 INSERT INTO `carousel` VALUES ('c-10013', 'http://122.152.205.72:88/group1/M00/00/05/CpoxxF0ZmHiAWwR7AAFdqZHw8jU876.png', '#000240', '', '51', 2, 2, 1, '2019-08-25 20:33:06', '2019-08-25 20:33:09');
 INSERT INTO `carousel` VALUES ('c-10015', 'http://122.152.205.72:88/group1/M00/00/05/CpoxxF0ZmHuAPlXvAAFe-H5_-Nw961.png', '#ff9801', 'cake-1006', '', 1, 3, 1, '2019-08-26 20:33:06', '2019-08-26 20:33:09');
 INSERT INTO `carousel` VALUES ('c-10021', 'http://122.152.205.72:88/group1/M00/00/05/CpoxxF0ZmH6AeuRrAAEZviPhyQ0768.png', '#55be59', '', '133', 2, 4, 1, '2019-08-28 20:33:06', '2019-08-28 20:33:09');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for category
 -- ----------------------------
 DROP TABLE IF EXISTS `category`;
-CREATE TABLE `category`  (
+CREATE TABLE `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '主键',
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '分类名称',
+  `name` varchar(32) NOT NULL COMMENT '分类名称',
   `type` int(11) NOT NULL COMMENT '分类类型',
   `father_id` int(11) NOT NULL COMMENT '父id',
-  `logo` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '图标',
-  `slogan` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '口号',
-  `cat_image` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '分类图',
-  `bg_color` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '背景颜色',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 179 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品分类 ' ROW_FORMAT = Dynamic;
+  `logo` varchar(64) DEFAULT NULL COMMENT '图标',
+  `slogan` varchar(64) DEFAULT NULL COMMENT '口号',
+  `cat_image` varchar(64) DEFAULT NULL COMMENT '分类图',
+  `bg_color` varchar(32) DEFAULT NULL COMMENT '背景颜色',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=179 DEFAULT CHARSET=utf8mb4 COMMENT='商品分类 ';
 
 -- ----------------------------
 -- Records of category
 -- ----------------------------
+BEGIN;
 INSERT INTO `category` VALUES (1, '甜点/蛋糕', 1, 0, 'img/cake.png', '每一道甜品都能打开你的味蕾', 'http://122.152.205.72:88/foodie/category/cake.png', '#fe7a65');
 INSERT INTO `category` VALUES (2, '饼干/膨化', 1, 0, 'img/cookies.png', '嘎嘣脆，一听到声音就开吃', 'http://122.152.205.72:88/foodie/category/cookies.png', '#f59cec');
 INSERT INTO `category` VALUES (3, '熟食/肉类', 1, 0, 'img/meat.png', '食肉者最爱绝佳美食', 'http://122.152.205.72:88/foodie/category/meat.png', '#b474fe');
@@ -236,27 +239,29 @@ INSERT INTO `category` VALUES (175, '猪肉', 3, 36, NULL, NULL, NULL, NULL);
 INSERT INTO `category` VALUES (176, '羊肉', 3, 36, NULL, NULL, NULL, NULL);
 INSERT INTO `category` VALUES (177, '蹄子', 3, 36, NULL, NULL, NULL, NULL);
 INSERT INTO `category` VALUES (178, '糖醋排骨', 3, 36, NULL, NULL, NULL, NULL);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for items
 -- ----------------------------
 DROP TABLE IF EXISTS `items`;
-CREATE TABLE `items`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品主键id',
-  `item_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称 商品名称',
+CREATE TABLE `items` (
+  `id` varchar(64) NOT NULL COMMENT '商品主键id',
+  `item_name` varchar(32) NOT NULL COMMENT '商品名称 商品名称',
   `cat_id` int(11) NOT NULL COMMENT '分类外键id 分类id',
   `root_cat_id` int(11) NOT NULL COMMENT '一级分类外键id',
   `sell_counts` int(11) NOT NULL COMMENT '累计销售 累计销售',
   `on_off_status` int(11) NOT NULL COMMENT '上下架状态 上下架状态,1:上架 2:下架',
-  `content` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品内容 商品内容',
-  `created_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `updated_time` datetime(0) NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品表 商品信息相关表：分类表，商品图片表，商品规格表，商品参数表' ROW_FORMAT = Dynamic;
+  `content` text NOT NULL COMMENT '商品内容 商品内容',
+  `created_time` datetime NOT NULL COMMENT '创建时间',
+  `updated_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品表 商品信息相关表：分类表，商品图片表，商品规格表，商品参数表';
 
 -- ----------------------------
 -- Records of items
 -- ----------------------------
+BEGIN;
 INSERT INTO `items` VALUES ('bingan-1001', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 51, 2, 396, 1, '<p>超级好吃、非常好吃</p><img src=\"http://122.152.205.72:88/foodie/bingan-1001/img1.png\"><img src=\"http://122.152.205.72:88/foodie/bingan-1001/img2.png\">', '2019-09-09 14:45:34', '2019-09-09 14:45:38');
 INSERT INTO `items` VALUES ('bingan-1002', '【天天吃货】男人最爱 秋葵饼干 嘎嘣脆', 51, 2, 424, 1, '<p>超级好吃、非常好吃</p><img src=\"http://122.152.205.72:88/foodie/bingan-1002/img1.png\"><img src=\"http://122.152.205.72:88/foodie/bingan-1002/img2.png\">', '2019-09-09 14:45:34', '2019-09-09 14:45:38');
 INSERT INTO `items` VALUES ('bingan-1003', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 51, 2, 868, 1, '<p>超级好吃、非常好吃</p><img src=\"http://122.152.205.72:88/foodie/bingan-1003/img1.png\"><img src=\"http://122.152.205.72:88/foodie/bingan-1003/img2.png\">', '2019-09-09 14:45:34', '2019-09-09 14:45:38');
@@ -431,28 +436,30 @@ INSERT INTO `items` VALUES ('tea-150', '清爽可口铁观音 夏天必备', 150
 INSERT INTO `items` VALUES ('tea-151', '养生必备胖大海 清爽可口', 151, 9, 2131, 1, '<p>超级好吃、非常好吃</p><img src=\"http://122.152.205.72:88/foodie/tea-151/img1.png\"><img src=\"http://122.152.205.72:88/foodie/tea-151/img2.png\">', '2019-09-01 14:45:34', '2019-09-01 14:45:38');
 INSERT INTO `items` VALUES ('tea-152', '养生茶白桃乌龙茶 春夏必备', 152, 9, 2331, 1, '<p>超级好吃、非常好吃</p><img src=\"http://122.152.205.72:88/foodie/tea-152/img1.png\"><img src=\"http://122.152.205.72:88/foodie/tea-152/img2.png\">', '2019-09-01 14:45:34', '2019-09-01 14:45:38');
 INSERT INTO `items` VALUES ('tea-153', '美女最爱下午茶 奶茶泡泡更悠闲', 153, 9, 2931, 1, '<p>超级好吃、非常好吃</p><img src=\"http://122.152.205.72:88/foodie/tea-153/img1.png\"><img src=\"http://122.152.205.72:88/foodie/tea-153/img2.png\">', '2019-09-01 14:45:34', '2019-09-01 14:45:38');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for items_comments
 -- ----------------------------
 DROP TABLE IF EXISTS `items_comments`;
-CREATE TABLE `items_comments`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'id主键',
-  `user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户id 用户名须脱敏',
-  `item_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品id',
-  `item_name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品名称',
-  `item_spec_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '商品规格id 可为空',
-  `sepc_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '规格名称 可为空',
+CREATE TABLE `items_comments` (
+  `id` varchar(64) NOT NULL COMMENT 'id主键',
+  `user_id` varchar(64) DEFAULT NULL COMMENT '用户id 用户名须脱敏',
+  `item_id` varchar(64) NOT NULL COMMENT '商品id',
+  `item_name` varchar(64) DEFAULT NULL COMMENT '商品名称',
+  `item_spec_id` varchar(64) DEFAULT NULL COMMENT '商品规格id 可为空',
+  `sepc_name` varchar(32) DEFAULT NULL COMMENT '规格名称 可为空',
   `comment_level` int(11) NOT NULL COMMENT '评价等级 1：好评 2：中评 3：差评',
-  `content` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '评价内容',
-  `created_time` datetime(0) NULL DEFAULT NULL COMMENT '创建时间',
-  `updated_time` datetime(0) NULL DEFAULT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品评价表 ' ROW_FORMAT = Dynamic;
+  `content` varchar(128) NOT NULL COMMENT '评价内容',
+  `created_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `updated_time` datetime DEFAULT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品评价表 ';
 
 -- ----------------------------
 -- Records of items_comments
 -- ----------------------------
+BEGIN;
 INSERT INTO `items_comments` VALUES ('1', '1908017YR51G1XWH', 'cake-1001', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-1', '草莓味', 1, '很棒', '2019-07-22 09:55:05', '2019-07-22 09:55:09');
 INSERT INTO `items_comments` VALUES ('10', '1908017YR51G1XWH', 'cake-1001', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-1', '草莓味', 2, 'very good', '2019-07-22 09:55:05', '2019-07-22 09:55:09');
 INSERT INTO `items_comments` VALUES ('11', '1908017YR51G1XWH', 'cake-1001', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-1', '香草味', 3, '非常好吃', '2019-07-22 09:55:05', '2019-07-22 09:55:09');
@@ -478,25 +485,27 @@ INSERT INTO `items_comments` VALUES ('6', '1908017YR51G1XWH', 'cake-1001', '【�
 INSERT INTO `items_comments` VALUES ('7', '1908017YR51G1XWH', 'cake-1001', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-1', '原味', 1, '非常好吃', '2019-07-22 09:55:05', '2019-07-22 09:55:09');
 INSERT INTO `items_comments` VALUES ('8', '1908017YR51G1XWH', 'cake-1001', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-1', '原味', 3, '非常好吃', '2019-07-22 09:55:05', '2019-07-22 09:55:09');
 INSERT INTO `items_comments` VALUES ('9', '1908017YR51G1XWH', 'cake-1001', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-1', '原味', 1, '非常好吃', '2019-07-22 09:55:05', '2019-07-22 09:55:09');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for items_img
 -- ----------------------------
 DROP TABLE IF EXISTS `items_img`;
-CREATE TABLE `items_img`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '图片主键',
-  `item_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品外键id 商品外键id',
-  `url` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '图片地址 图片地址',
+CREATE TABLE `items_img` (
+  `id` varchar(64) NOT NULL COMMENT '图片主键',
+  `item_id` varchar(64) NOT NULL COMMENT '商品外键id 商品外键id',
+  `url` varchar(128) NOT NULL COMMENT '图片地址 图片地址',
   `sort` int(11) NOT NULL COMMENT '顺序 图片顺序，从小到大',
   `is_main` int(11) NOT NULL COMMENT '是否主图 是否主图，1：是，0：否',
-  `created_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `updated_time` datetime(0) NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品图片 ' ROW_FORMAT = Dynamic;
+  `created_time` datetime NOT NULL COMMENT '创建时间',
+  `updated_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品图片 ';
 
 -- ----------------------------
 -- Records of items_img
 -- ----------------------------
+BEGIN;
 INSERT INTO `items_img` VALUES ('1', 'cake-1001', 'http://122.152.205.72:88/foodie/cake-1001/img1.png', 0, 1, '2019-07-01 14:46:55', '2019-07-01 14:47:02');
 INSERT INTO `items_img` VALUES ('2', 'cake-1001', 'http://122.152.205.72:88/foodie/cake-1001/img2.png', 1, 0, '2019-07-01 14:46:55', '2019-07-01 14:47:02');
 INSERT INTO `items_img` VALUES ('3', 'cake-1001', 'http://122.152.205.72:88/foodie/cake-1001/img3.png', 2, 0, '2019-07-01 14:46:55', '2019-07-01 14:47:02');
@@ -847,31 +856,33 @@ INSERT INTO `items_img` VALUES ('tea-152-img-1', 'tea-152', 'http://122.152.205.
 INSERT INTO `items_img` VALUES ('tea-152-img-2', 'tea-152', 'http://122.152.205.72:88/foodie/tea-152/img2.png', 2, 0, '2019-07-01 14:46:55', '2019-07-01 14:47:02');
 INSERT INTO `items_img` VALUES ('tea-153-img-1', 'tea-153', 'http://122.152.205.72:88/foodie/tea-153/img1.png', 1, 1, '2019-07-01 14:46:55', '2019-07-01 14:47:02');
 INSERT INTO `items_img` VALUES ('tea-153-img-2', 'tea-153', 'http://122.152.205.72:88/foodie/tea-153/img2.png', 2, 0, '2019-07-01 14:46:55', '2019-07-01 14:47:02');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for items_param
 -- ----------------------------
 DROP TABLE IF EXISTS `items_param`;
-CREATE TABLE `items_param`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品参数id',
-  `item_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品外键id',
-  `produc_place` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '产地 产地，例：中国江苏',
-  `foot_period` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '保质期 保质期，例：180天',
-  `brand` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '品牌名 品牌名，例：三只大灰狼',
-  `factory_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '生产厂名 生产厂名，例：大灰狼工厂',
-  `factory_address` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '生产厂址 生产厂址，例：大灰狼生产基地',
-  `packaging_method` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '包装方式 包装方式，例：袋装',
-  `weight` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格重量 规格重量，例：35g',
-  `storage_method` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '存储方法 存储方法，例：常温5~25°',
-  `eat_method` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '食用方式 食用方式，例：开袋即食',
-  `created_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `updated_time` datetime(0) NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品参数 ' ROW_FORMAT = Dynamic;
+CREATE TABLE `items_param` (
+  `id` varchar(64) NOT NULL COMMENT '商品参数id',
+  `item_id` varchar(32) NOT NULL COMMENT '商品外键id',
+  `produc_place` varchar(32) NOT NULL COMMENT '产地 产地，例：中国江苏',
+  `foot_period` varchar(32) NOT NULL COMMENT '保质期 保质期，例：180天',
+  `brand` varchar(32) NOT NULL COMMENT '品牌名 品牌名，例：三只大灰狼',
+  `factory_name` varchar(32) NOT NULL COMMENT '生产厂名 生产厂名，例：大灰狼工厂',
+  `factory_address` varchar(32) NOT NULL COMMENT '生产厂址 生产厂址，例：大灰狼生产基地',
+  `packaging_method` varchar(32) NOT NULL COMMENT '包装方式 包装方式，例：袋装',
+  `weight` varchar(32) NOT NULL COMMENT '规格重量 规格重量，例：35g',
+  `storage_method` varchar(32) NOT NULL COMMENT '存储方法 存储方法，例：常温5~25°',
+  `eat_method` varchar(32) NOT NULL COMMENT '食用方式 食用方式，例：开袋即食',
+  `created_time` datetime NOT NULL COMMENT '创建时间',
+  `updated_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品参数 ';
 
 -- ----------------------------
 -- Records of items_param
 -- ----------------------------
+BEGIN;
 INSERT INTO `items_param` VALUES ('1', 'cake-1001', '中国', '180天', '慕课网', '北京慕课网有限公司', '北京中关村', '袋装', '50g', '常温5~25°', '拆开即食', '2019-07-01 15:32:30', '2019-07-01 15:32:35');
 INSERT INTO `items_param` VALUES ('2', 'cake-1002', '中国', '180天', '慕课网', '北京慕课网有限公司', '北京中关村', '袋装', '50g', '常温5~25°', '拆开即食', '2019-07-01 15:32:30', '2019-07-01 15:32:35');
 INSERT INTO `items_param` VALUES ('3', 'cake-1003', '中国', '180天', '慕课网', '北京慕课网有限公司', '北京中关村', '袋装', '50g', '常温5~25°', '拆开即食', '2019-07-01 15:32:30', '2019-07-01 15:32:35');
@@ -1046,38 +1057,40 @@ INSERT INTO `items_param` VALUES ('tea-150-param', 'tea-150', '中国', '180天'
 INSERT INTO `items_param` VALUES ('tea-151-param', 'tea-151', '中国', '180天', '慕课网', '北京慕课网有限公司', '北京中关村', '袋装', '50g', '常温5~25°', '拆开即食', '2019-07-01 15:32:30', '2019-07-01 15:32:35');
 INSERT INTO `items_param` VALUES ('tea-152-param', 'tea-152', '中国', '180天', '慕课网', '北京慕课网有限公司', '北京中关村', '袋装', '50g', '常温5~25°', '拆开即食', '2019-07-01 15:32:30', '2019-07-01 15:32:35');
 INSERT INTO `items_param` VALUES ('tea-153-param', 'tea-153', '中国', '180天', '慕课网', '北京慕课网有限公司', '北京中关村', '袋装', '50g', '常温5~25°', '拆开即食', '2019-07-01 15:32:30', '2019-07-01 15:32:35');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for items_spec
 -- ----------------------------
 DROP TABLE IF EXISTS `items_spec`;
-CREATE TABLE `items_spec`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品规格id',
-  `item_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品外键id',
-  `name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格名称',
+CREATE TABLE `items_spec` (
+  `id` varchar(64) NOT NULL COMMENT '商品规格id',
+  `item_id` varchar(64) NOT NULL COMMENT '商品外键id',
+  `name` varchar(32) NOT NULL COMMENT '规格名称',
   `stock` int(11) NOT NULL COMMENT '库存',
-  `discounts` decimal(4, 2) NOT NULL COMMENT '折扣力度',
+  `discounts` decimal(4,2) NOT NULL COMMENT '折扣力度',
   `price_discount` int(11) NOT NULL COMMENT '优惠价',
   `price_normal` int(11) NOT NULL COMMENT '原价',
-  `created_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `updated_time` datetime(0) NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '商品规格 每一件商品都有不同的规格，不同的规格又有不同的价格和优惠力度，规格表为此设计' ROW_FORMAT = Dynamic;
+  `created_time` datetime NOT NULL COMMENT '创建时间',
+  `updated_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='商品规格 每一件商品都有不同的规格，不同的规格又有不同的价格和优惠力度，规格表为此设计';
 
 -- ----------------------------
 -- Records of items_spec
 -- ----------------------------
-INSERT INTO `items_spec` VALUES ('1', 'cake-1001', '原味', 2275, 0.90, 18000, 20000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
+BEGIN;
+INSERT INTO `items_spec` VALUES ('1', 'cake-1001', '原味', 2276, 0.90, 18000, 20000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('2', 'cake-1001', '草莓味', 1007, 1.00, 20000, 20000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('3', 'cake-1001', '香草味', 978, 0.88, 17600, 20000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
-INSERT INTO `items_spec` VALUES ('4', 'cake-1002', '巧克力', 999, 0.90, 36000, 40000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
+INSERT INTO `items_spec` VALUES ('4', 'cake-1002', '巧克力', 242, 0.90, 36000, 40000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('5', 'cake-1002', '草莓水果', 302, 0.80, 32000, 40000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('6', 'cake-1002', '芒果口味', 194, 1.00, 40000, 40000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
-INSERT INTO `items_spec` VALUES ('7', 'cake-1003', '巧克力', 248, 0.90, 22500, 25000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
+INSERT INTO `items_spec` VALUES ('7', 'cake-1003', '巧克力', 250, 0.90, 22500, 25000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('8', 'cake-1003', '草莓水果', 305, 0.80, 20000, 25000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('9', 'cake-1003', '芒果口味', 198, 1.00, 25000, 25000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('bingan-1001-spec-1', 'bingan-1001', '巧克力', 260, 0.80, 12000, 15000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
-INSERT INTO `items_spec` VALUES ('bingan-1001-spec-2', 'bingan-1001', '草莓水果', 1000, 0.60, 9000, 15000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
+INSERT INTO `items_spec` VALUES ('bingan-1001-spec-2', 'bingan-1001', '草莓水果', 305, 0.60, 9000, 15000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('bingan-1001-spec-3', 'bingan-1001', '芒果口味', 981, 1.00, 15000, 15000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('bingan-1002-spec-1', 'bingan-1002', '巧克力', 258, 0.90, 13500, 15000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('bingan-1002-spec-2', 'bingan-1002', '草莓水果', 303, 0.80, 12000, 15000, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
@@ -1589,171 +1602,263 @@ INSERT INTO `items_spec` VALUES ('tea-152-spec-3', 'tea-152', '罐装', 198, 1.0
 INSERT INTO `items_spec` VALUES ('tea-153-spec-1', 'tea-153', '散装', 260, 0.90, 7650, 8500, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('tea-153-spec-2', 'tea-153', '袋装', 305, 0.80, 6800, 8500, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
 INSERT INTO `items_spec` VALUES ('tea-153-spec-3', 'tea-153', '罐装', 198, 1.00, 8500, 8500, '2019-07-01 14:54:20', '2019-07-01 14:54:28');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for order_items
 -- ----------------------------
 DROP TABLE IF EXISTS `order_items`;
-CREATE TABLE `order_items`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id',
-  `order_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '归属订单id',
-  `item_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品id',
-  `item_img` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品图片',
-  `item_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '商品名称',
-  `item_spec_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格id',
-  `item_spec_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '规格名称',
+CREATE TABLE `order_items` (
+  `id` varchar(64) NOT NULL COMMENT '主键id',
+  `order_id` varchar(64) NOT NULL COMMENT '归属订单id',
+  `item_id` varchar(64) NOT NULL COMMENT '商品id',
+  `item_img` varchar(128) NOT NULL COMMENT '商品图片',
+  `item_name` varchar(32) NOT NULL COMMENT '商品名称',
+  `item_spec_id` varchar(32) NOT NULL COMMENT '规格id',
+  `item_spec_name` varchar(32) NOT NULL COMMENT '规格名称',
   `price` int(11) NOT NULL COMMENT '成交价格',
   `buy_counts` int(11) NOT NULL COMMENT '购买数量',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单商品关联表 ' ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单商品关联表 ';
 
 -- ----------------------------
 -- Records of order_items
 -- ----------------------------
-INSERT INTO `order_items` VALUES ('200908C30BHMP3HH', '200908C30BDW6W00', 'cake-1002', 'http://122.152.205.72:88/foodie/cake-1002/img1.png', '【天天吃货】网红烘焙蛋糕 好吃的蛋糕', '4', '巧克力', 36000, 1);
-INSERT INTO `order_items` VALUES ('200908C3CHSR1X68', '200908C3CHP5BNF8', 'cake-1002', 'http://122.152.205.72:88/foodie/cake-1002/img1.png', '【天天吃货】网红烘焙蛋糕 好吃的蛋糕', '4', '巧克力', 36000, 1);
-INSERT INTO `order_items` VALUES ('200908C3CHW608DP', '200908C3CHP5BNF8', 'cake-1003', 'http://122.152.205.72:88/foodie/cake-1003/img1.png', '【天天吃货】超好吃华夫饼 美食诱惑 下午茶', '7', '巧克力', 22500, 1);
-INSERT INTO `order_items` VALUES ('200908C88ZK79TXP', '200908C88Z7AZKWH', 'cake-1002', 'http://122.152.205.72:88/foodie/cake-1002/img1.png', '【天天吃货】网红烘焙蛋糕 好吃的蛋糕', '4', '巧克力', 36000, 1);
-INSERT INTO `order_items` VALUES ('200908C88ZNT01KP', '200908C88Z7AZKWH', 'cake-1003', 'http://122.152.205.72:88/foodie/cake-1003/img1.png', '【天天吃货】超好吃华夫饼 美食诱惑 下午茶', '7', '巧克力', 22500, 1);
+BEGIN;
+INSERT INTO `order_items` VALUES ('190827F2R9C5HA3C', '190827F2R9A6ZT2W', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190827F4AK1T68M8', '190827F4AK12R30H', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190827F4AK2N3168', '190827F4AK12R30H', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190827H703NGAHSW', '190827H703M977C0', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190827H703PM2B7C', '190827H703M977C0', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190827H7WD3SPZ2W', '190827H7WD2TCNHH', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190827H87MGDSGTC', '190827H87MFB2RAW', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190827H87MHNXX68', '190827H87MFB2RAW', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190828F6B6H4G72W', '190828F6B6FYBXP0', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190828F6B6KAMHDP', '190828F6B6FYBXP0', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190828FFTCNXYP28', '190828FFTCMT6XKP', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190828FFTCPRTCM8', '190828FFTCMT6XKP', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190828FG7ZA594ZC', '190828FG7Z8A44X4', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190828FG7ZBRN354', '190828FG7Z8A44X4', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190828FKGK1T12A8', '190828FKGK0DF614', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190828FKGK2XPWSW', '190828FKGK0DF614', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190828FSTH7965AW', '190828FSTH66FAY8', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190828FSTH852XYW', '190828FSTH66FAY8', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190829022A57GCM8', '190829022A38YXKP', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190829022A6PDTXP', '190829022A38YXKP', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('19082903XD866T9P', '19082903XD76YGTC', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('19082903XD95G2W0', '19082903XD76YGTC', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('19082906Z4S3FSA8', '19082906Z4PBR968', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('19082906Z4TD1MNC', '19082906Z4PBR968', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190829081HZ2C1KP', '190829081HY6G91P', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190829081HZY8S5P', '190829081HY6G91P', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('1908290848S44NXP', '1908290848R4WCBC', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('1908290848T01CDP', '1908290848R4WCBC', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('19082908GR5FR494', '19082908GR4GCWSW', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('19082908GR6769YW', '19082908GR4GCWSW', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190829092XG40TF8', '190829092XFBGKWH', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190829092XGR2F5P', '190829092XFBGKWH', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('1908290HGHA37FK4', '1908290HGH9AS8ZC', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('1908290HGHATPP6W', '1908290HGH9AS8ZC', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190829F5Z10SWY3C', '190829F5Z0YKD968', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190829F5Z1308G0H', '190829F5Z0YKD968', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190829F61X5ZA51P', '190829F61X4WMAK4', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190829F61X6T6XKP', '190829F61X4WMAK4', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190829F6FTCK6WZC', '190829F6FTBRA4BC', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190829F6FTDD3KGC', '190829F6FTBRA4BC', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190829F6NT93F04H', '190829F6NT8B0SFW', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190829F6NT9TZ5S8', '190829F6NT8B0SFW', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190829F7DDHTPSW0', '190829F7DDGZW280', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190829F7DDKH60DP', '190829F7DDGZW280', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190830BPTHMKCYRP', '190830BPTHGSZN54', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190830BPTHR8FNC0', '190830BPTHGSZN54', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190830BW77X8C280', '190830BW77HM55KP', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190830BW77YWS0DP', '190830BW77HM55KP', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+INSERT INTO `order_items` VALUES ('190830BZ5B6TZC94', '190830BZ5B5R7KWH', 'bingan-1001', 'http://122.152.205.72:88/foodie/bingan-1001/img1.png', '【天天吃货】彩虹马卡龙 下午茶 美眉最爱', 'bingan-1001-spec-3', '芒果口味', 15000, 1);
+INSERT INTO `order_items` VALUES ('190830BZ5B7NW4X4', '190830BZ5B5R7KWH', 'bingan-1003', 'http://122.152.205.72:88/foodie/bingan-1003/img1.png', '【天天吃货】可爱动物饼干 儿童早餐 孩子最爱', 'bingan-1003-spec-2', '草莓水果', 8000, 1);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for order_status
 -- ----------------------------
 DROP TABLE IF EXISTS `order_status`;
-CREATE TABLE `order_status`  (
-  `order_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单ID;对应订单表的主键id',
+CREATE TABLE `order_status` (
+  `order_id` varchar(64) NOT NULL COMMENT '订单ID;对应订单表的主键id',
   `order_status` int(11) NOT NULL COMMENT '订单状态',
-  `created_time` datetime(0) NULL DEFAULT NULL COMMENT '订单创建时间;对应[10:待付款]状态',
-  `pay_time` datetime(0) NULL DEFAULT NULL COMMENT '支付成功时间;对应[20:已付款，待发货]状态',
-  `deliver_time` datetime(0) NULL DEFAULT NULL COMMENT '发货时间;对应[30：已发货，待收货]状态',
-  `success_time` datetime(0) NULL DEFAULT NULL COMMENT '交易成功时间;对应[40：交易成功]状态',
-  `close_time` datetime(0) NULL DEFAULT NULL COMMENT '交易关闭时间;对应[50：交易关闭]状态',
-  `comment_time` datetime(0) NULL DEFAULT NULL COMMENT '留言时间;用户在交易成功后的留言时间',
-  PRIMARY KEY (`order_id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单状态表;订单的每个状态更改都需要进行记录\n10：待付款  20：已付款，待发货  30：已发货，待收货（7天自动确认）  40：交易成功（此时可以评价）50：交易关闭（待付款时，用户取消 或 长时间未付款，系统识别后自动关闭）\n退货/退货，此分支流程不做，所以不加入' ROW_FORMAT = Dynamic;
+  `created_time` datetime DEFAULT NULL COMMENT '订单创建时间;对应[10:待付款]状态',
+  `pay_time` datetime DEFAULT NULL COMMENT '支付成功时间;对应[20:已付款，待发货]状态',
+  `deliver_time` datetime DEFAULT NULL COMMENT '发货时间;对应[30：已发货，待收货]状态',
+  `success_time` datetime DEFAULT NULL COMMENT '交易成功时间;对应[40：交易成功]状态',
+  `close_time` datetime DEFAULT NULL COMMENT '交易关闭时间;对应[50：交易关闭]状态',
+  `comment_time` datetime DEFAULT NULL COMMENT '留言时间;用户在交易成功后的留言时间',
+  PRIMARY KEY (`order_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单状态表;订单的每个状态更改都需要进行记录\n10：待付款  20：已付款，待发货  30：已发货，待收货（7天自动确认）  40：交易成功（此时可以评价）50：交易关闭（待付款时，用户取消 或 长时间未付款，系统识别后自动关闭）\n退货/退货，此分支流程不做，所以不加入';
 
 -- ----------------------------
 -- Records of order_status
 -- ----------------------------
-INSERT INTO `order_status` VALUES ('200908C30BDW6W00', 10, '2020-09-08 16:57:54', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `order_status` VALUES ('200908C3CHP5BNF8', 10, '2020-09-08 16:59:12', NULL, NULL, NULL, NULL, NULL);
-INSERT INTO `order_status` VALUES ('200908C88Z7AZKWH', 10, '2020-09-08 17:13:49', NULL, NULL, NULL, NULL, NULL);
+BEGIN;
+INSERT INTO `order_status` VALUES ('190827F2R9A6ZT2W', 20, '2019-08-27 19:45:16', '2019-08-28 18:59:34', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('190827F4AK12R30H', 20, '2019-08-27 19:50:07', '2019-08-28 21:47:17', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('190827H703M977C0', 50, '2019-08-27 22:46:09', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190827H7WD2TCNHH', 50, '2019-08-27 22:48:45', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190827H87MFB2RAW', 50, '2019-08-27 22:49:57', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190828F6B6FYBXP0', 50, '2019-08-28 19:56:12', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190828FFTCMT6XKP', 50, '2019-08-28 20:21:31', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190828FG7Z8A44X4', 50, '2019-08-28 20:22:52', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190828FKGK0DF614', 50, '2019-08-28 20:29:41', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190828FSTH66FAY8', 50, '2019-08-28 20:45:33', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190829022A38YXKP', 50, '2019-08-29 00:06:15', '2019-08-29 00:06:27', NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('19082903XD76YGTC', 20, '2019-08-29 00:11:44', '2019-08-29 00:12:05', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('19082906Z4PBR968', 20, '2019-08-29 00:20:55', '2019-08-29 00:21:45', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('190829081HY6G91P', 50, '2019-08-29 00:24:11', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('1908290848R4WCBC', 20, '2019-08-29 00:24:28', '2019-08-29 00:24:47', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('19082908GR4GCWSW', 20, '2019-08-29 00:25:42', '2019-08-29 00:26:04', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('190829092XFBGKWH', 20, '2019-08-29 00:27:20', '2019-08-29 00:27:29', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('1908290HGH9AS8ZC', 20, '2019-08-29 00:49:42', '2019-08-29 00:50:00', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('190829F5Z0YKD968', 50, '2019-08-29 19:54:53', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190829F61X4WMAK4', 50, '2019-08-29 19:55:11', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190829F6FTBRA4BC', 50, '2019-08-29 19:56:35', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190829F6NT8B0SFW', 50, '2019-08-29 19:57:07', NULL, NULL, NULL, '2019-08-30 00:49:42', NULL);
+INSERT INTO `order_status` VALUES ('190829F7DDGZW280', 20, '2019-08-29 19:59:26', '2019-08-29 20:15:30', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('190830BPTHGSZN54', 10, '2019-08-30 16:27:21', NULL, NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('190830BW77HM55KP', 20, '2019-08-30 16:37:36', '2019-08-30 16:39:30', NULL, NULL, NULL, NULL);
+INSERT INTO `order_status` VALUES ('190830BZ5B5R7KWH', 20, '2019-08-30 16:46:25', '2019-08-30 16:48:36', NULL, NULL, NULL, NULL);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for orders
 -- ----------------------------
 DROP TABLE IF EXISTS `orders`;
-CREATE TABLE `orders`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '订单主键;同时也是订单编号',
-  `user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户id',
-  `receiver_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收货人快照',
-  `receiver_mobile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收货人手机号快照',
-  `receiver_address` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收货地址快照',
+CREATE TABLE `orders` (
+  `id` varchar(64) NOT NULL COMMENT '订单主键;同时也是订单编号',
+  `user_id` varchar(64) NOT NULL COMMENT '用户id',
+  `receiver_name` varchar(32) NOT NULL COMMENT '收货人快照',
+  `receiver_mobile` varchar(32) NOT NULL COMMENT '收货人手机号快照',
+  `receiver_address` varchar(128) NOT NULL COMMENT '收货地址快照',
   `total_amount` int(11) NOT NULL COMMENT '订单总价格',
   `real_pay_amount` int(11) NOT NULL COMMENT '实际支付总价格',
   `post_amount` int(11) NOT NULL COMMENT '邮费;默认可以为零，代表包邮',
   `pay_method` int(11) NOT NULL COMMENT '支付方式',
-  `left_msg` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '买家留言',
-  `extand` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '扩展字段',
+  `left_msg` varchar(128) DEFAULT NULL COMMENT '买家留言',
+  `extand` varchar(32) DEFAULT NULL COMMENT '扩展字段',
   `is_comment` int(11) NOT NULL COMMENT '买家是否评价;1：已评价，0：未评价',
   `is_delete` int(11) NOT NULL COMMENT '逻辑删除状态;1: 删除 0:未删除',
-  `created_time` datetime(0) NOT NULL COMMENT '创建时间（成交时间）',
-  `updated_time` datetime(0) NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '订单表;' ROW_FORMAT = Dynamic;
+  `created_time` datetime NOT NULL COMMENT '创建时间（成交时间）',
+  `updated_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='订单表;';
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES ('200908C30BDW6W00', '200903ABX74RN4DP', '111222', '18888888222', '广东 广州 越秀区 越秀区', 40000, 36000, 0, 1, '', NULL, 0, 0, '2020-09-08 16:57:54', '2020-09-08 16:57:54');
-INSERT INTO `orders` VALUES ('200908C3CHP5BNF8', '200903ABX74RN4DP', '111222', '18888888222', '广东 广州 越秀区 越秀区', 65000, 58500, 0, 2, '', NULL, 0, 0, '2020-09-08 16:59:12', '2020-09-08 16:59:12');
-INSERT INTO `orders` VALUES ('200908C88Z7AZKWH', '200903ABX74RN4DP', '111222', '18888888222', '广东 广州 越秀区 越秀区', 65000, 58500, 0, 1, '', NULL, 0, 0, '2020-09-08 17:13:49', '2020-09-08 17:13:49');
+BEGIN;
+INSERT INTO `orders` VALUES ('190827F2R9A6ZT2W', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 15000, 15000, 0, 1, '', NULL, 0, 0, '2019-08-27 19:45:16', '2019-08-27 19:45:16');
+INSERT INTO `orders` VALUES ('190827F4AK12R30H', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, 'abc你好', NULL, 0, 0, '2019-08-27 19:50:07', '2019-08-27 19:50:07');
+INSERT INTO `orders` VALUES ('190827H703M977C0', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-27 22:46:09', '2019-08-27 22:46:09');
+INSERT INTO `orders` VALUES ('190827H7WD2TCNHH', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 15000, 15000, 0, 1, '', NULL, 0, 0, '2019-08-27 22:48:45', '2019-08-27 22:48:45');
+INSERT INTO `orders` VALUES ('190827H87MFB2RAW', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-27 22:49:57', '2019-08-27 22:49:57');
+INSERT INTO `orders` VALUES ('190828F6B6FYBXP0', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-28 19:56:11', '2019-08-28 19:56:11');
+INSERT INTO `orders` VALUES ('190828FFTCMT6XKP', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-28 20:21:31', '2019-08-28 20:21:31');
+INSERT INTO `orders` VALUES ('190828FG7Z8A44X4', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-28 20:22:52', '2019-08-28 20:22:52');
+INSERT INTO `orders` VALUES ('190828FKGK0DF614', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-28 20:29:41', '2019-08-28 20:29:41');
+INSERT INTO `orders` VALUES ('190828FSTH66FAY8', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-28 20:45:33', '2019-08-28 20:45:33');
+INSERT INTO `orders` VALUES ('190829022A38YXKP', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-29 00:06:15', '2019-08-29 00:06:15');
+INSERT INTO `orders` VALUES ('19082903XD76YGTC', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-29 00:11:44', '2019-08-29 00:11:44');
+INSERT INTO `orders` VALUES ('19082906Z4PBR968', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-29 00:20:55', '2019-08-29 00:20:55');
+INSERT INTO `orders` VALUES ('190829081HY6G91P', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-29 00:24:11', '2019-08-29 00:24:11');
+INSERT INTO `orders` VALUES ('1908290848R4WCBC', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-29 00:24:28', '2019-08-29 00:24:28');
+INSERT INTO `orders` VALUES ('19082908GR4GCWSW', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-29 00:25:42', '2019-08-29 00:25:42');
+INSERT INTO `orders` VALUES ('190829092XFBGKWH', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 1, '', NULL, 0, 0, '2019-08-29 00:27:20', '2019-08-29 00:27:20');
+INSERT INTO `orders` VALUES ('1908290HGH9AS8ZC', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-29 00:49:42', '2019-08-29 00:49:42');
+INSERT INTO `orders` VALUES ('190829F5Z0YKD968', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-29 19:54:53', '2019-08-29 19:54:53');
+INSERT INTO `orders` VALUES ('190829F61X4WMAK4', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-29 19:55:11', '2019-08-29 19:55:11');
+INSERT INTO `orders` VALUES ('190829F6FTBRA4BC', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-29 19:56:35', '2019-08-29 19:56:35');
+INSERT INTO `orders` VALUES ('190829F6NT8B0SFW', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-29 19:57:07', '2019-08-29 19:57:07');
+INSERT INTO `orders` VALUES ('190829F7DDGZW280', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-29 19:59:26', '2019-08-29 19:59:26');
+INSERT INTO `orders` VALUES ('190830BPTHGSZN54', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-30 16:27:21', '2019-08-30 16:27:21');
+INSERT INTO `orders` VALUES ('190830BW77HM55KP', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-30 16:37:36', '2019-08-30 16:37:36');
+INSERT INTO `orders` VALUES ('190830BZ5B5R7KWH', '1908189H7TNWDTXP', 'jack', '13333333333', '北京 北京 东城区 123', 25000, 23000, 0, 2, '', NULL, 0, 0, '2019-08-30 16:46:25', '2019-08-30 16:46:25');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for stu
 -- ----------------------------
 DROP TABLE IF EXISTS `stu`;
-CREATE TABLE `stu`  (
+CREATE TABLE `stu` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `name` varchar(255) NOT NULL,
   `age` int(11) NOT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1225 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1221 DEFAULT CHARSET=utf8mb4;
 
 -- ----------------------------
 -- Records of stu
 -- ----------------------------
-INSERT INTO `stu` VALUES (1203, 'update', 20);
+BEGIN;
+INSERT INTO `stu` VALUES (1203, 'parent', 19);
+INSERT INTO `stu` VALUES (1205, 'parent', 19);
 INSERT INTO `stu` VALUES (1209, 'parent', 19);
 INSERT INTO `stu` VALUES (1211, 'parent', 19);
-INSERT INTO `stu` VALUES (1221, 'tom', 19);
-INSERT INTO `stu` VALUES (1222, 'tom2', 19);
-INSERT INTO `stu` VALUES (1223, 'tom2', 19);
-INSERT INTO `stu` VALUES (1224, 'tom3', 19);
-INSERT INTO `stu` VALUES (1225, 'tom3', 19);
+COMMIT;
 
 -- ----------------------------
 -- Table structure for user_address
 -- ----------------------------
 DROP TABLE IF EXISTS `user_address`;
-CREATE TABLE `user_address`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '地址主键id',
-  `user_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '关联用户id',
-  `receiver` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人姓名',
-  `mobile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '收件人手机号',
-  `province` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '省份',
-  `city` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '城市',
-  `district` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '区县',
-  `detail` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '详细地址',
-  `extand` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '扩展字段',
-  `is_default` int(11) NULL DEFAULT NULL COMMENT '是否默认地址',
-  `created_time` datetime(0) NOT NULL COMMENT '创建时间',
-  `updated_time` datetime(0) NOT NULL COMMENT '更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户地址表 ' ROW_FORMAT = Dynamic;
+CREATE TABLE `user_address` (
+  `id` varchar(64) NOT NULL COMMENT '地址主键id',
+  `user_id` varchar(64) NOT NULL COMMENT '关联用户id',
+  `receiver` varchar(32) NOT NULL COMMENT '收件人姓名',
+  `mobile` varchar(32) NOT NULL COMMENT '收件人手机号',
+  `province` varchar(32) NOT NULL COMMENT '省份',
+  `city` varchar(32) NOT NULL COMMENT '城市',
+  `district` varchar(32) NOT NULL COMMENT '区县',
+  `detail` varchar(128) NOT NULL COMMENT '详细地址',
+  `extand` varchar(128) DEFAULT NULL COMMENT '扩展字段',
+  `is_default` int(11) DEFAULT NULL COMMENT '是否默认地址',
+  `created_time` datetime NOT NULL COMMENT '创建时间',
+  `updated_time` datetime NOT NULL COMMENT '更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户地址表 ';
 
 -- ----------------------------
 -- Records of user_address
 -- ----------------------------
+BEGIN;
 INSERT INTO `user_address` VALUES ('190825CG3AA14Y3C', '1908189H7TNWDTXP', 'jack', '13333333333', '北京', '北京', '东城区', '123', NULL, 1, '2019-08-25 17:34:14', '2019-08-25 17:34:14');
 INSERT INTO `user_address` VALUES ('190825CG4ZCSSWM8', '1908189H7TNWDTXP', 'abc', '13666666666', '北京', '北京', '东城区', '345', NULL, 0, '2019-08-25 17:34:24', '2019-08-25 17:34:24');
-INSERT INTO `user_address` VALUES ('200908A0H0GFHH94', '200903ABX74RN4DP', '111222', '18888888222', '广东', '广州', '越秀区', '111222', NULL, 1, '2020-09-08 14:02:25', '2020-09-08 14:06:31');
-INSERT INTO `user_address` VALUES ('200908A0KM178G9P', '200903ABX74RN4DP', '222', '18888888888', '广东', '汕头', '金平区', '222', NULL, 0, '2020-09-08 14:02:36', '2020-09-08 14:02:36');
+COMMIT;
 
 -- ----------------------------
 -- Table structure for users
 -- ----------------------------
 DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users`  (
-  `id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键id 用户id',
-  `username` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '用户名 用户名',
-  `password` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密码 密码',
-  `nickname` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '昵称 昵称',
-  `realname` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '真实姓名',
-  `face` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '头像',
-  `mobile` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '手机号 手机号',
-  `email` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱地址 邮箱地址',
-  `sex` int(11) NULL DEFAULT NULL COMMENT '性别 性别 1:男  0:女  2:保密',
-  `birthday` date NULL DEFAULT NULL COMMENT '生日 生日',
-  `created_time` datetime(0) NOT NULL COMMENT '创建时间 创建时间',
-  `updated_time` datetime(0) NOT NULL COMMENT '更新时间 更新时间',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表 ' ROW_FORMAT = Dynamic;
+CREATE TABLE `users` (
+  `id` varchar(64) NOT NULL COMMENT '主键id 用户id',
+  `username` varchar(32) NOT NULL COMMENT '用户名 用户名',
+  `password` varchar(64) NOT NULL COMMENT '密码 密码',
+  `nickname` varchar(32) DEFAULT NULL COMMENT '昵称 昵称',
+  `realname` varchar(128) DEFAULT NULL COMMENT '真实姓名',
+  `face` varchar(1024) NOT NULL COMMENT '头像',
+  `mobile` varchar(32) DEFAULT NULL COMMENT '手机号 手机号',
+  `email` varchar(32) DEFAULT NULL COMMENT '邮箱地址 邮箱地址',
+  `sex` int(11) DEFAULT NULL COMMENT '性别 性别 1:男  0:女  2:保密',
+  `birthday` date DEFAULT NULL COMMENT '生日 生日',
+  `created_time` datetime NOT NULL COMMENT '创建时间 创建时间',
+  `updated_time` datetime NOT NULL COMMENT '更新时间 更新时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户表 ';
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
+BEGIN;
 INSERT INTO `users` VALUES ('1908017YR51G1XWH', 'imooc', 'Qpf0SxOVUjUkWySXOZ16kw==', 'imooc', NULL, 'http://122.152.205.72:88/group1/M00/00/05/CpoxxFw_8_qAIlFXAAAcIhVPdSg994.png', NULL, NULL, 2, '1900-01-01', '2019-08-14 23:44:30', '2019-08-14 23:44:30');
 INSERT INTO `users` VALUES ('190815GTKCBSS7MW', 'test', 'Qpf0SxOVUjUkWySXOZ16kw==', 'test', NULL, 'http://122.152.205.72:88/group1/M00/00/05/CpoxxFw_8_qAIlFXAAAcIhVPdSg994.png', NULL, NULL, 2, '1900-01-01', '2019-08-15 22:11:58', '2019-08-15 22:11:58');
 INSERT INTO `users` VALUES ('190816HH9RDPD6Y8', 'abc', 'Qpf0SxOVUjUkWySXOZ16kw==', 'abc', NULL, 'http://122.152.205.72:88/group1/M00/00/05/CpoxxFw_8_qAIlFXAAAcIhVPdSg994.png', NULL, NULL, 2, '1900-01-01', '2019-08-16 23:14:12', '2019-08-16 23:14:12');
 INSERT INTO `users` VALUES ('1908189H7TNWDTXP', 'imooc123', 'Qpf0SxOVUjUkWySXOZ16kw==', 'imooc123', NULL, 'http://122.152.205.72:88/group1/M00/00/05/CpoxxFw_8_qAIlFXAAAcIhVPdSg994.png', NULL, NULL, 2, '1900-01-01', '2019-08-18 13:25:30', '2019-08-18 13:25:30');
 INSERT INTO `users` VALUES ('190818A4HC2BPDP0', 'test123', 'Qpf0SxOVUjUkWySXOZ16kw==', 'test123', NULL, 'http://122.152.205.72:88/group1/M00/00/05/CpoxxFw_8_qAIlFXAAAcIhVPdSg994.png', NULL, NULL, 2, '1900-01-01', '2019-08-18 14:14:28', '2019-08-18 14:14:28');
 INSERT INTO `users` VALUES ('190818AWZ22872FW', '1imooc', 'Qpf0SxOVUjUkWySXOZ16kw==', '1imooc', NULL, 'http://122.152.205.72:88/group1/M00/00/05/CpoxxFw_8_qAIlFXAAAcIhVPdSg994.png', NULL, NULL, 2, '1900-01-01', '2019-08-18 15:15:39', '2019-08-18 15:15:39');
-INSERT INTO `users` VALUES ('200903AA00M44FNC', 'eee', 'cd87cd5ef753a06ee79fc75dc7cfe66c', 'eee', NULL, 'https://', NULL, NULL, 1, '1990-01-22', '2020-09-03 14:30:44', '2020-09-03 14:30:44');
-INSERT INTO `users` VALUES ('200903AAN4DG5MA8', 'fff', 'eed8cdc400dfd4ec85dff70a170066b7', 'fff', NULL, 'https://', NULL, NULL, 1, '1990-01-22', '2020-09-03 14:32:47', '2020-09-03 14:32:47');
-INSERT INTO `users` VALUES ('200903AB04Y85HPH', 'ggg', '9cafeef08db2dd477098a0293e71f90a', 'ggg', NULL, 'https://', NULL, NULL, 1, '1990-01-22', '2020-09-03 14:33:45', '2020-09-03 14:33:45');
-INSERT INTO `users` VALUES ('200903AB8F73K2A8', 'vvv', '4693fbb215b8ca15a6900f0cfa164cdc', 'vvv', NULL, 'https://', NULL, NULL, 1, '1990-01-22', '2020-09-03 14:34:38', '2020-09-03 14:34:38');
-INSERT INTO `users` VALUES ('200903ABX74RN4DP', 'ccc', 'c1f68ec06b490b3ecb4066b1b13a9ee9', 'ccc', NULL, 'https://', NULL, NULL, 1, '1990-01-22', '2020-09-03 14:36:26', '2020-09-03 14:36:26');
-INSERT INTO `users` VALUES ('200903AD133Z2ZXP', 'aaa', '0b4e7a0e5fe84ad35fb5f95b9ceeac79', 'aaa', NULL, 'https://', NULL, NULL, 1, '1990-01-22', '2020-09-03 14:39:51', '2020-09-03 14:39:51');
+COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
