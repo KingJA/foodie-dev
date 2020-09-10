@@ -5,14 +5,12 @@ import com.imooc.controller.BaseController;
 import com.imooc.enums.YesOrNo;
 import com.imooc.pojo.Orders;
 import com.imooc.pojo.bo.center.OrderItemsCommentBO;
-import com.imooc.service.center.CenterUserService;
 import com.imooc.service.center.MyCommentsService;
 import com.imooc.utils.ApiResult;
+import com.imooc.utils.PagedGridResult;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -74,7 +72,23 @@ public class MyCommentsController extends BaseController {
             return ApiResult.errorMsg("评价内容不能为空");
         }
 
-        myCommentsService.saveList(orderId,userId,commentList);
+        myCommentsService.saveList(orderId, userId, commentList);
         return ApiResult.ok();
     }
+
+    @ApiOperation(value = "我的评价", notes = "我的评价", httpMethod = "POST")
+    @PostMapping("/query")
+    public ApiResult query(@ApiParam(value = "用户Id", required = true, name = "userId") @RequestParam String userId,
+                           @ApiParam(value = "页码", required = true, name = "page") @RequestParam Integer page,
+                           @ApiParam(value = "每页数量", required = true, name = "pageSize") @RequestParam Integer pageSize) {
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = PAGE_SIZE;
+        }
+        PagedGridResult pageComments = myCommentsService.getMyComments(userId, page, pageSize);
+        return ApiResult.ok(pageComments);
+    }
+
 }
