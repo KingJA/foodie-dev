@@ -41,7 +41,7 @@ public class ItemsComments {
     /**
      * 规格名称 可为空
      */
-    @Column(name = "sepc_name")
+    @Column(name = "spec_name")
     private String sepcName;
 
     /**

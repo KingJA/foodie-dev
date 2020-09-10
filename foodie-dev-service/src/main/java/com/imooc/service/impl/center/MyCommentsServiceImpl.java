@@ -1,8 +1,13 @@
 package com.imooc.service.impl.center;
 
+import com.imooc.enums.YesOrNo;
 import com.imooc.mapper.ItemsCommentsMapperCustom;
 import com.imooc.mapper.OrderItemsMapper;
+import com.imooc.mapper.OrderStatusMapper;
+import com.imooc.mapper.OrdersMapper;
 import com.imooc.pojo.OrderItems;
+import com.imooc.pojo.OrderStatus;
+import com.imooc.pojo.Orders;
 import com.imooc.pojo.bo.center.OrderItemsCommentBO;
 import com.imooc.service.center.MyCommentsService;
 
@@ -12,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +37,12 @@ public class MyCommentsServiceImpl implements MyCommentsService {
 
     @Autowired
     ItemsCommentsMapperCustom itemsCommentsMapperCustom;
+
+    @Autowired
+    OrdersMapper ordersMapper;
+
+    @Autowired
+    OrderStatusMapper orderStatusMapper;
     @Autowired
     Sid sid;
 
@@ -58,6 +70,16 @@ public class MyCommentsServiceImpl implements MyCommentsService {
 
 
         //2.订单 已评价
+
+        Orders order = new Orders();
+        order.setId(orderId);
+        order.setIsComment(YesOrNo.YES.type);
+        ordersMapper.updateByPrimaryKeySelective(order);
         //3.状态表 评价时间
+
+        OrderStatus orderStatus = new OrderStatus();
+        orderStatus.setOrderId(orderId);
+        orderStatus.setCommentTime(new Date());
+        orderStatusMapper.updateByPrimaryKeySelective(orderStatus);
     }
 }

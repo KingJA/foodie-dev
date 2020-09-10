@@ -74,6 +74,7 @@ public class MyCommentsController extends BaseController {
             return ApiResult.errorMsg("评价内容不能为空");
         }
 
-        return ApiResult.ok(myCommentsService.queryPendComment(orderId));
+        myCommentsService.saveList(orderId,userId,commentList);
+        return ApiResult.ok();
     }
 }
