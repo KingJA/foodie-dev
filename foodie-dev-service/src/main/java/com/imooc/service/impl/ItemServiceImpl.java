@@ -124,7 +124,7 @@ public class ItemServiceImpl implements ItemService {
         map.put("itemId", itemId);
         map.put("level", level);
         PageHelper.startPage(page, pageSize);
-        List<ItemCommentVo> list = itemsCommentsMapperCustom.getItemComments(map);
+        List<ItemCommentVo> list = itemsMapperCustom.getItemComments(map);
         return getPagedGridResult(list, page);
     }
 
