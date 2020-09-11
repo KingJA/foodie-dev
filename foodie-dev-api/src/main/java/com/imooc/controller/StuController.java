@@ -28,6 +28,17 @@ public class StuController {
         return stuService.getStuInfo(id);
     }
 
+    @GetMapping("/hi")
+    public Object test() {
+        return "hi kingja";
+    }
+
+    @GetMapping("/db")
+    public Object db() {
+        return stuService.getStuInfo(1203);
+    }
+
+
     @PostMapping("/saveStu")
     public Object saveStu() {
         stuService.saveStu();

@@ -23,6 +23,7 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedOrigin("http://localhost:8080");
+        config.addAllowedOrigin("http://49.232.232.173:8080");
         /*允许携带cookie*/
         config.setAllowCredentials(true);
         /*允许携带所有请求头*/
