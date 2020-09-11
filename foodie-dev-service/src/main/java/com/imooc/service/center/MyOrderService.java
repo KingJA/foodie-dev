@@ -1,7 +1,12 @@
 package com.imooc.service.center;
 
 import com.imooc.pojo.Orders;
+import com.imooc.pojo.vo.OrderStatusCountsVO;
 import com.imooc.utils.PagedGridResult;
+
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Map;
 
 /**
  * Description:TODO
@@ -50,4 +55,14 @@ public interface MyOrderService {
      * @return
      */
     public Orders queryMyOrder(String userId, String orderId);
+
+
+    /**
+     * 各状态订单数量
+     * @param userId
+     * @return
+     */
+    OrderStatusCountsVO getMyOrderStatusCounts(String userId);
+
+     PagedGridResult getMyOrderTend(String userId,  int page, int pageSize);
 }

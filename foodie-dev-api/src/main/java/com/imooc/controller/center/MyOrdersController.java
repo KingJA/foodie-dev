@@ -2,6 +2,7 @@ package com.imooc.controller.center;
 
 
 import com.imooc.controller.BaseController;
+import com.imooc.pojo.vo.OrderStatusCountsVO;
 import com.imooc.service.center.MyOrderService;
 import com.imooc.utils.ApiResult;
 import com.imooc.utils.IMOOCJSONResult;
@@ -99,5 +100,28 @@ public class MyOrdersController extends BaseController {
         }
 
         return ApiResult.ok();
+    }
+
+
+    @ApiOperation(value = "各状态订单数", notes = "各状态订单数", httpMethod = "POST")
+    @PostMapping("/statusCounts")
+    public ApiResult statusCounts(@ApiParam(value = "用户Id", required = true, name = "userId") @RequestParam String userId
+    ) {
+        return ApiResult.ok(myOrderService.getMyOrderStatusCounts(userId));
+    }
+
+    @ApiOperation(value = "订单动向", notes = "订单动向", httpMethod = "POST")
+    @PostMapping("/trend")
+    public ApiResult trend(@ApiParam(value = "用户Id", required = true, name = "userId") @RequestParam String userId,
+                                 @ApiParam(value = "页码", required = true, name = "page") @RequestParam Integer page,
+                                 @ApiParam(value = "每页数量", required = true, name = "pageSize") @RequestParam Integer pageSize) {
+        if (page == null) {
+            page = 1;
+        }
+        if (pageSize == null) {
+            pageSize = PAGE_SIZE;
+        }
+        PagedGridResult pageComments = myOrderService.getMyOrderTend(userId, page, pageSize);
+        return ApiResult.ok(pageComments);
     }
 }
