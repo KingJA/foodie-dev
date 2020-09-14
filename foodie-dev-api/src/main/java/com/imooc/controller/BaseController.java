@@ -25,7 +25,7 @@ public class BaseController {
     //                       |-> 回调通知的url
 //    String payReturnUrl = "http://api.z.mukewang.com/foodie-dev-api/orders/notifyMerchantOrderPaid";
 //    String payReturnUrl = "http://vrjg7q.natappfree.cc/orders/notifyMerchantOrderPaid";
-    String payReturnUrl = "http://49.232.232.173:8088/foodie-dev-api/orders/notifyMerchantOrderPaid";
+    String payReturnUrl = "http://api.foodie.kblue.tech/orders/notifyMerchantOrderPaid";
 
     // 用户上传头像的位置
     public static final String IMAGE_USER_FACE_LOCATION = File.separator + "workspaces" +
@@ -39,6 +39,7 @@ public class BaseController {
 
     /**
      * 用于验证用户和订单是否有关联关系，避免非法用户调用
+     *
      * @return
      */
     public ApiResult checkUserOrder(String userId, String orderId) {
