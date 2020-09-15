@@ -77,7 +77,7 @@ public class PassportController {
         return ApiResult.ok();
     }
 
-    @ApiOperation(value = "注册登录", notes = "注册登录notes", httpMethod = "POST")
+    @ApiOperation(value = "登录", notes = "登录notes", httpMethod = "POST")
     @PostMapping("/login")
     public ApiResult login(@RequestBody UserBO userBO,
                            HttpServletRequest request, HttpServletResponse response) {
