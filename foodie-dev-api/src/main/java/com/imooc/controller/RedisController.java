@@ -2,16 +2,14 @@ package com.imooc.controller;
 
 import com.imooc.utils.RedisOperator;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import java.util.Arrays;
+import java.util.List;
 
 import lombok.extern.java.Log;
 import springfox.documentation.annotations.ApiIgnore;
@@ -50,5 +48,26 @@ public class RedisController {
 //        redisTemplate.delete(key);
         redisOperator.del(key);
         return "ok";
+    }
+
+    /**
+     * 批量查询 mget
+     * @param keys
+     * @return
+     */
+    @GetMapping("/mget")
+    public Object mget(String... keys) {
+        return redisOperator.mget(Arrays.asList(keys));
+    }
+
+
+    /**
+     * 批量查询 pipeline
+     * @param keys
+     * @return
+     */
+    @GetMapping("/batchGet")
+    public List<Object> batchGet(String... keys) {
+        return redisOperator.batchGet(Arrays.asList(keys));
     }
 }

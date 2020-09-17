@@ -3,13 +3,16 @@ package com.imooc.controller;
 
 import com.imooc.pojo.Users;
 import com.imooc.pojo.bo.UserBO;
+import com.imooc.pojo.vo.UsersVO;
 import com.imooc.service.UserService;
 import com.imooc.utils.ApiResult;
 import com.imooc.utils.CookieUtils;
 import com.imooc.utils.JsonUtils;
 import com.imooc.utils.MD5Util;
+import com.imooc.utils.RedisOperator;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,10 +39,11 @@ import io.swagger.annotations.ApiParam;
 @Api(value = "这是注册登录", tags = "注册登录")
 @RestController
 @RequestMapping("passport")
-public class PassportController {
+public class PassportController extends BaseController{
 
     @Autowired
     private UserService userService;
+
 
     @ApiOperation(value = "判断用户名是否存在", notes = "用户名是否存在notes", httpMethod = "GET")
     @GetMapping("/usernameIsExist")
@@ -71,11 +77,18 @@ public class PassportController {
             return ApiResult.errorMsg("重复密码不一致");
         }
         Users result = userService.createUser(userBO);
-        CookieUtils.setCookie(request,response,"user", JsonUtils.objectToJson(result),true);
-        //TODO 生成用户token，存入redis会话
+
+        //生成token并按uiserId保存到redis,返回带有token的UserVo到cookie
+        //生成用户token，存入redis会话
+        UsersVO usersVO= getConventUserVO( result);
+
+        CookieUtils.setCookie(request,response,"user", JsonUtils.objectToJson(usersVO),true);
+
         //TODO 同步购物车数据
         return ApiResult.ok();
     }
+
+
 
     @ApiOperation(value = "登录", notes = "登录notes", httpMethod = "POST")
     @PostMapping("/login")
@@ -90,12 +103,11 @@ public class PassportController {
         if (result == null) {
             return ApiResult.errorMsg("账号或密码不正确");
         }
-        //TODO
-        //返回指定对象，不包含敏感字段，教程用设置null方法，个人觉得另用一个对象
-        CookieUtils.setCookie(request,response,"user", JsonUtils.objectToJson(result),true);
-        //TODO 生成用户token，存入redis会话
+        //生成用户token，存入redis会话
+        UsersVO usersVO= getConventUserVO( result);
+        CookieUtils.setCookie(request,response,"user", JsonUtils.objectToJson(usersVO),true);
         //TODO 同步购物车数据
-        return ApiResult.ok(result);
+        return ApiResult.ok(usersVO);
     }
 
     @ApiOperation(value = "退出登录", notes = "退出登录", httpMethod = "POST")
@@ -103,9 +115,10 @@ public class PassportController {
     public ApiResult logout(@RequestParam String userId,
                            HttpServletRequest request, HttpServletResponse response) {
         CookieUtils.deleteCookie(request,response,"user");
-        //TODO
-        //1.用户退出需要清空购物车
+
+        // TODO 1.用户退出需要清空购物车
         //2.分布式会话需要清除会话信息
+        redisOperator.del(REDIS_USER_TOKEN+":"+userId);
         return ApiResult.ok();
     }
 

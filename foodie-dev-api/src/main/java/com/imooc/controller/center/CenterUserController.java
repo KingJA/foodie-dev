@@ -1,8 +1,10 @@
 package com.imooc.controller.center;
 
 
+import com.imooc.controller.BaseController;
 import com.imooc.pojo.Users;
 import com.imooc.pojo.bo.center.CenterUserBO;
+import com.imooc.pojo.vo.UsersVO;
 import com.imooc.resource.FileUpload;
 import com.imooc.service.center.CenterUserService;
 import com.imooc.utils.ApiResult;
@@ -49,7 +51,7 @@ import io.swagger.annotations.ApiParam;
 @Api(value = "用户信息", tags = "用户信息")
 @RestController
 @RequestMapping("userInfo")
-public class CenterUserController {
+public class CenterUserController extends BaseController {
 
     @Autowired
     private CenterUserService centerUserService;
@@ -71,9 +73,13 @@ public class CenterUserController {
         }
 
         Users resultUser = centerUserService.updateUserInfo(userId, centerUserBO);
-        CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(setNullProperty(resultUser)), true);
-        return ApiResult.ok(resultUser);
+
+        UsersVO usersVO = getConventUserVO(resultUser);
+
+        CookieUtils.setCookie(request, response, "user", JsonUtils.objectToJson(usersVO), true);
+        return ApiResult.ok(usersVO);
     }
+
     private Map<String, String> getErrors(BindingResult result) {
         Map<String, String> map = new HashMap<>();
         List<FieldError> errorList = result.getFieldErrors();
@@ -87,6 +93,7 @@ public class CenterUserController {
         }
         return map;
     }
+
     private Users setNullProperty(Users userResult) {
         userResult.setPassword(null);
         userResult.setMobile(null);
@@ -134,7 +141,7 @@ public class CenterUserController {
 
                     if (!suffix.equalsIgnoreCase("png") &&
                             !suffix.equalsIgnoreCase("jpg") &&
-                            !suffix.equalsIgnoreCase("jpeg") ) {
+                            !suffix.equalsIgnoreCase("jpeg")) {
                         return IMOOCJSONResult.errorMsg("图片格式不正确！");
                     }
 
@@ -185,11 +192,12 @@ public class CenterUserController {
         // 更新用户头像到数据库
         Users userResult = centerUserService.updateUserFace(userId, finalUserFaceUrl);
 
-        userResult = setNullProperty(userResult);
-        CookieUtils.setCookie(request, response, "user",
-                JsonUtils.objectToJson(userResult), true);
+        //  后续要改，增加令牌token，会整合进redis，分布式会话
+        UsersVO usersVO = getConventUserVO(userResult);
 
-        // TODO 后续要改，增加令牌token，会整合进redis，分布式会话
+        CookieUtils.setCookie(request, response, "user",
+                JsonUtils.objectToJson(usersVO), true);
+
 
         return IMOOCJSONResult.ok();
     }
