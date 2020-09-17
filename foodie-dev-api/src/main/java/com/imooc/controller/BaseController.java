@@ -63,6 +63,7 @@ public class BaseController {
         String token= UUID.randomUUID().toString();
         redisOperator.set(REDIS_USER_TOKEN+":"+result.getId(),token);
         UsersVO usersVO = new UsersVO();
+        usersVO.setUserUniqueToken(token);
         BeanUtils.copyProperties(result,usersVO);
         return usersVO;
     }

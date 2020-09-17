@@ -1,11 +1,18 @@
 package com.imooc.controller.interceptor;
 
+import com.imooc.utils.ApiResult;
+import com.imooc.utils.JsonUtils;
 import com.imooc.utils.RedisOperator;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -33,10 +40,25 @@ public class UserTokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("进去拦截器");
-        String headUserId = request.getHeader("headUserId");
-        String headUserToken = request.getHeader("headUserToken");
+        String headUserId = request.getHeader("headerUserId");
+        String headUserToken = request.getHeader("headerUserToken");
+        if (StringUtils.isBlank(headUserId) || StringUtils.isBlank(headUserToken)) {
+            rerurnErrorResponse(response,ApiResult.errorMsg("userId或token不存在，请登录"));
+            return false;
+        }
 
-        return false;
+        String token = redisOperator.get(REDIS_USER_TOKEN + ":" + headUserId);
+        if (StringUtils.isBlank(token)) {
+            rerurnErrorResponse(response,ApiResult.errorMsg("没有token缓存，请登录"));
+            return false;
+        }else{
+            if (!token.equals(headUserToken)) {
+                rerurnErrorResponse(response,ApiResult.errorMsg("账号在异地登录，请重新登录"));
+                return false;
+            }
+
+        }
+        return true;
     }
 
     /**
@@ -67,6 +89,28 @@ public class UserTokenInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
                                 Exception ex) throws Exception {
         System.out.println("渲染之后");
+
+    }
+
+    private void rerurnErrorResponse(HttpServletResponse response, ApiResult apiResult) {
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("text/json");
+        OutputStream outputStream=null;
+        try {
+            outputStream = response.getOutputStream();
+            outputStream.write(JsonUtils.objectToJson(apiResult).getBytes("utf-8"));
+            outputStream.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            if (outputStream != null) {
+                try {
+                    outputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
 
     }
 }
